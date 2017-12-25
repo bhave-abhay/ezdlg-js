@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Stepup Test</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../lib/bootstrap/4.0.0-beta-2/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="fontawesome/css/font-awesome.min.css" />
+	<style type="text/css">
+		.invalid {
+			background-color: #ffffcc;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row" id="testform">
+			<div class="col-md-6 col-sm-12">
+				<div class="input-group">
+					<span class="input-group-addon">User Name</span>
+					<input id="txtUserId" type="text" class="form-control" placeholder="" data-ezform-causesvalidation="true">
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="input-group">
+					<span class="input-group-addon">Password</span>
+					<input id="txtPassword" type="password" class="form-control" placeholder="Password" data-ezform-causesvalidation="true">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="btnSetValue" class="col-md-3 btn btn-default">
+				Set Values
+			</div>
+			<div id="btnGetValue" class="col-md-3 btn btn-default">
+				Get Values
+			</div>
+			<div id="btnChangeSingleItem" class="col-md-3 btn btn-default">
+				Change single item
+			</div>
+			<div id="btnShowezDialog" class="col-md-3 btn btn-default">
+				Show Dialog
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<pre id="divValue">
+
+				</pre>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="formSignup" class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtFirstName" class="label label-default">First Name</label>
+								<input type="text" placeholder="First Name" class="form-control" id="txtFirstName" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtLastName" class="label label-default">Last Name</label>
+								<input type="text" placeholder="Last Name" class="form-control" id="txtLastName">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtEMail" class="label label-default">email ID</label>
+								<input type="text" placeholder="email ID" class="form-control" id="txtEMail" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtMobile" class="label label-default">Mobile Number</label>
+								<input type="text" placeholder="Mobile Number" class="form-control" id="txtMobile" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="txtUsername" class="label label-default">User ID (Login ID)</label>
+								<input type="text" placeholder="User ID" class="form-control" id="txtNewUsername" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtPassword" class="label label-default">Enter Password</label>
+								<input type="password" placeholder="Password" class="form-control" id="txtNewPassword" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="txtConfirmPassword" class="label label-default">Confirm Password</label>
+								<input type="password" placeholder="Password" class="form-control" id="txtConfirmNewPassword" data-ezform-causesvalidation="true">
+							</div>
+						</div>
+						<div class="col-md-12 alert-danger" data-ezform-tag="ValidationSummary"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div id="testdialog" class="modal" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
+		<div class="modal-dialog container">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"  data-ezdialog-tag="dialog_title">Title</h4>
+					<button type="button" class="close" title="Escape"  data-ezdialog-tag="dialog_close">×</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<div style="text-align: justify;"  data-ezdialog-tag="dialog_message">
+								Message
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"  data-ezdialog-tag="dialog_footer">
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../lib/jquery/3.2.1/jquery-3.2.1.js"></script>
+	<script src="../lib/jquery/3.2.1/jquery-ui-1.12.1.js"></script>
+	<script src="../lib/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<script src="../src/js/stepup.js"></script>
+
+	<script type="text/javascript">
+		var testezForm = $('#testform').ezform({
+				'cbGetData': function() {
+					return {
+						'sUserId': $('#txtUserId').val(),
+						'sPassword': $('#txtPassword').val()
+					}
+				},
+				'cbShowData': function(objData) {
+					$('#txtUserId').val(objData.sUserId);
+					$('#txtPassword').val(objData.sPassword);
+				},
+				'sInvalidClass': 'invalid',
+				'sCausesValidationClass': 'causesValidation'
+			})
+			.on('ezform:validate', function(evt) {
+				var sMsgUserIdMissing = 'User Id not entered';
+				var sMsgPasswordMissing = 'Password not entered';
+				if ($('#txtUserId').val() === '') {
+					evt.veto(sMsgUserIdMissing, 'txtUserId');
+				}
+				if ($('#txtPassword').val() === '') {
+					evt.veto(sMsgPasswordMissing, 'txtPassword');
+				}
+			});
+
+		$('#btnGetValue').click(function(e) {
+			var val = testezForm.ezval();
+			if (val === undefined) {
+				$('#divValue').html("Undefined");
+			} else {
+				$('#divValue').html(JSON.stringify(val, null, '\t'));
+			}
+			e.preventDefault();
+		});
+		$('#btnSetValue').click(function(e) {
+			testezForm.ezval({
+				sUserId: 'Abhay.Bhave',
+				sPassword: 'abc123'
+			});
+			e.preventDefault();
+		});
+		$('#btnChangeSingleItem').click(function(e) {
+			$('#txtUserId').val('ira');
+			e.preventDefault();
+		});
+
+
+		var signupForm = $('#formSignup').ezform({
+				cbGetData: function() {
+					return {
+						'sNameFirst': $('#txtFirstName').val(),
+						'sNameLast': $('#txtLastName').val(),
+						'sEMailId': $('#txtEMail').val(),
+						'sMobile': $('#txtMobile').val(),
+						'sUserId': $('#txtNewUsername').val(),
+						'sPassword': $('#txtNewPassword').val()
+					};
+				},
+				cbShowData: function(objData) {
+					$('#txtFirstName').val(objData.sNameFirst);
+					$('#txtLastName').val(objData.sNameLast);
+					$('#txtEMail').val(objData.sEMailId);
+					$('#txtMobile').val(objData.sMobile);
+					$('#txtNewUsername').val(objData.sUserId);
+				},
+				'sInvalidClass': 'invalid',
+				'sCausesValidationClass': 'causesValidation'
+			})
+			.on('ezform:validate', function(evt) {
+				if ($('#txtFirstName').val() === '') {
+					evt.veto('First Name not entered', 'txtFirstName');
+				}
+				if ($('#txtEMail').val() === '') {
+					evt.veto('email not entered', 'txtEMail');
+				}
+				if ($('#txtNewUsername').val() === '') {
+					evt.veto('Username not entered', 'txtNewUsername');
+				}
+				if ($('#txtNewPassword').val() === '') {
+					evt.veto('Password not entered', 'txtNewPassword');
+				}
+				if ($('#txtConfirmNewPassword').val() === '') {
+					evt.veto('Password not confirmed', 'txtConfirmNewPassword');
+				}
+				if ($('#txtNewPassword').val() !== $('#txtConfirmNewPassword').val()) {
+					evt.veto('Password confirmation failed', 'txtConfirmNewPassword');
+				}
+			})
+			.detach();
+
+		var testezDialog = $('#testdialog').ezdialog();
+		$('#btnShowezDialog').click(function(e) {
+			var currUserInfo = {
+				'sNameFirst': 'Ira',
+				'sNameLast': 'Bhave',
+				'sEMailId': 'aa@bb.cc',
+				'sMobile': '5588996633',
+				'sUserId': 'aaa',
+				'sPassword': 'bbb'
+			};
+			testezDialog.show_dialog('Title goes here', signupForm, currUserInfo)
+				.buttons([{
+						btnId: 'OK',
+						cssClasses: 'btn-primary',
+						sText: 'Ok'
+					},
+					{
+						btnId: 'CANCEL',
+						cssClasses: 'btn-sm btn-info',
+						sText: 'Not now, may be some other time...'
+					}
+				])
+				.off('ezdialog:buttonclick')
+				.on('ezdialog:buttonclick', function(evt, evtInfo) {
+					if (evtInfo.btnId === 'OK') {
+						if (evtInfo.fValid) {
+							var info = evtInfo.formData;
+							$('#divValue').html('Received valid data!');
+							testezDialog.show_dialog('Recursive?!', "Not really!")
+								.buttons([{
+									sText: 'Cancel',
+									cssClasses: 'btn-info',
+									btnId: 'CANCEL'
+								}])
+								.off('ezdialog:buttonclick')
+								.on('ezdialog:buttonclick', function() {
+									testezDialog.hide_dialog();
+									$('#divValue').html(JSON.stringify(info, null, '\t'));
+								});
+						}
+					} else if (evtInfo.btnId === 'CANCEL') {
+						$('#divValue').html('Cancelled dialog');
+						testezDialog.hide_dialog();
+					}
+				});
+
+			e.preventDefault();
+		});
+	</script>
+</body>
+
+</html>
